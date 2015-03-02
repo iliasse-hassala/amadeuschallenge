@@ -31,7 +31,7 @@ def top_10_airports(csvfile):
             except:
                 pass
 
-        print Counter(airports_names_passengers_number_dict).most_common(10)
+        return Counter(airports_names_passengers_number_dict).most_common(10)
 
 
 def plot_monthly_number_of_searches(csvfile, dest=[]):
@@ -105,7 +105,9 @@ def main():
     # at Malaga, Madrid or Barcelona
     plot_monthly_number_of_searches("searches.csv", ["AGP", "MAD", "BCN"])
 
-    match_searches_bookings("searches.csv", "bookings.csv")
+    #Bonus exercise 1 : match searches with bookings
+    #work in progress
+    #match_searches_bookings("searches.csv", "bookings.csv")
 
 
 if __name__ == "__main__":
