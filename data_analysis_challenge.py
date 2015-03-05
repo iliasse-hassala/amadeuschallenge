@@ -61,7 +61,8 @@ def plot_monthly_number_of_searches(csvfile, dest=[]):
         for dest_plot in dest_month_dict.keys():
             counter = Counter(dest_month_dict[dest_plot])
             list_month_occ = sorted(counter.items(), key=itemgetter(0))
-            plt.plot([p[0] for p in list_month_occ], [p[1] for p in list_month_occ], label=dest_plot)
+            plt.plot([p[0] for p in list_month_occ], [p[1]
+                                                      for p in list_month_occ], label=dest_plot)
         plt.title(
             "Searches for flights arriving at Malaga, Madrid or Barcelona")
         plt.legend(loc='upper right')
@@ -82,9 +83,14 @@ def match_searches_bookings(searchesfile, bookingsfile):
 
                     bookings_dep_port = row_bookings[9].strip()
                     booking_arr_port = row_bookings[12].strip()
+                    #not sure about rhe row position !!!
+                    searches_office_id = row_searches[3]
+                    bookings_office_id = row_bookings[5]
 
-                    if(searches_origin == bookings_dep_port and searches_destination == booking_arr_port):
-                        print searches_origin, searches_destination, "1"
+                    if(searches_origin == bookings_dep_port and
+                            searches_destination == booking_arr_port and
+                            searches_office_id == bookings_office_id):
+                        print searches_origin, searches_destination, searches_office_id, "1"
                 except:
                     pass
 
@@ -105,10 +111,6 @@ def main():
     # at Malaga, Madrid or Barcelona
     plot_monthly_number_of_searches("searches.csv", ["AGP", "MAD", "BCN"])
 
-    #Bonus exercise 1 : match searches with bookings
-    #work in progress
-    #match_searches_bookings("searches.csv", "bookings.csv")
-
-
-if __name__ == "__main__":
-    main()
+    # Bonus exercise 1 : match searches with bookings
+    # work in progress
+    match_searches_bookings("searches.csv", "bookings.csv")
