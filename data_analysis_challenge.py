@@ -4,6 +4,7 @@ from collections import Counter
 from operator import itemgetter
 import dateutil.parser
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def number_of_line_csv(csvfile):
@@ -83,7 +84,7 @@ def match_searches_bookings(searchesfile, bookingsfile):
 
                     bookings_dep_port = row_bookings[9].strip()
                     booking_arr_port = row_bookings[12].strip()
-                    #not sure about rhe row position !!!
+                    # not sure about rhe row position !!!
                     searches_office_id = row_searches[3]
                     bookings_office_id = row_bookings[5]
 
@@ -93,6 +94,15 @@ def match_searches_bookings(searchesfile, bookingsfile):
                         print searches_origin, searches_destination, searches_office_id, "1"
                 except:
                     pass
+
+
+def top_10_airports_panda_version(csvfile):
+    df = pd.read_csv(
+        csvfile, sep='^', quotechar='\'', header=0,
+        usecols=[12, 34], names=['arr_port', 'pax'], skipinitialspace=True)
+    grps = df.groupby(by=['arr_port'], sort=False).sum().sort(
+        ['pax'], ascending=False).head(10)
+    return grps
 
 
 def main():
