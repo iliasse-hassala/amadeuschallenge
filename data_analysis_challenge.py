@@ -5,6 +5,7 @@ from operator import itemgetter
 import dateutil.parser
 import matplotlib.pyplot as plt
 import pandas as pd
+from datetime import datetime
 
 
 def number_of_line_csv(csvfile):
@@ -96,13 +97,21 @@ def match_searches_bookings(searchesfile, bookingsfile):
                     pass
 
 
-def top_10_airports_panda_version(csvfile):
+def top_10_airports_pandas_version(csvfile):
     df = pd.read_csv(
         csvfile, sep='^', quotechar='\'', header=0,
         usecols=[12, 34], names=['arr_port', 'pax'], skipinitialspace=True)
     grps = df.groupby(by=['arr_port'], sort=False).sum().sort(
         ['pax'], ascending=False).head(10)
     return grps
+
+# Not yet done
+def plot_monthly_number_of_searches_pandas_version(csvfile, dest=[]):
+    parse = lambda x: datetime.strptime(x, '%Y-%m-%d')
+    df = pd.read_csv(csvfile, sep='^', quotechar='\'', header=0, usecols=[0, 6], names=['Date', 'Destination'], skipinitialspace=True, index_col = 0, date_parser=parse)
+    grps = df.groupby(by=['Date'], sort=False)['Destination'].sum()
+
+
 
 
 def main():
